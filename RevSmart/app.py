@@ -1,10 +1,13 @@
-from flask import Flask
-from flask import jsonify
-from flask import render_template
-from flask import request
-from flask import url_for
+import streamlit as st
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
+import pandas as pd
+
+#import chart_studio
+#chart_studio.tools.set_credentials_file(username='MelissaKR', api_key='rpgCYqSrBtBrTIbbMaV8')
+#import chart_studio.plotly as py
+#from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
+#import plotly.graph_objs as go
 
 import math
 import re
@@ -15,6 +18,22 @@ from time import sleep
 from collections import defaultdict
 import json
 from bs4 import BeautifulSoup
+import urllib.parse
+
+import io
+import base64
+
+#import matplotlib.pyplot as plt
+#import matplotlib
+#from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+#from matplotlib.figure import Figure
+
+
+import chart_studio
+# *fill in username and API Key for plotly here*
+chart_studio.tools.set_credentials_file(username='MelissaKR', api_key='rpgCYqSrBtBrTIbbMaV8')
+import chart_studio.plotly as py
+import plotly.graph_objs as go
 
 # Authenticate and call CMLE prediction API
 credentials = GoogleCredentials.get_application_default()
@@ -23,8 +42,6 @@ project = os.getenv('PROJECT','petfoodrecommend')
 model_name = os.getenv('MODEL_NAME', 'insight_project')
 version_name = os.getenv('VERSION_NAME', 'v1')
 
-
-app = Flask(__name__)
 
 def clean_text(text, remove_stopwords = False):
     '''Remove unwanted characters, stopwords, and format the text to create fewer nulls word embeddings'''
@@ -135,7 +152,7 @@ def clean_text(text, remove_stopwords = False):
 
 def get_item_id(url):
 
-    item_id = re.findall("/product-reviews/(\d+)?", str(url))
+    item_id = re.findall("/dp/(\d+)", str(url))
     product_name = re.findall("com/(.*)/", str(url)) 
     return item_id[0], product_name[0].split('/')[0]
 
@@ -150,9 +167,9 @@ def get_product_reviews_url(item_id, product_name, page_number=None):
 
 
 def get_soup(url):
-    nap_time_sec = 1
+  #  nap_time_sec = 1
 
-    sleep(nap_time_sec)
+  #  sleep(nap_time_sec)
 
     out = requests.get(url) #, headers=header)
 #    assert out.status_code == 200
@@ -283,23 +300,64 @@ def get_prediction(url_link):
                 result_dict[i] = inside
     return result_dict, len(reviews_class)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
-@app.route('/form')
-def input_form():
-    return render_template('form.html')
 
-@app.route('/api/predict', methods=['POST'])
-def predict():
 
-    data = json.loads(request.data.decode())
+def main():
+    """Deploying Streamlit App with Docker"""
+    
+    st.title("RevSmart")
+    st.header("Navigate pet food reviews smartly")
+    
+  #  activities = ["Get URL","Results"]
 
-    features = {}
-    features['url'] = data['url']
+  #  choices = st.sidebar.selectbox('Select Activities',activities)
+    
+  #  if choices== 'Get URL':
+    st.subheader("Get URL")
+    input_url = st.text_input("Chewy URL")
+        
+    if len(input_url) != 0:
+        results = get_prediction(input_url)
+            
+        st.write("There are a total of {} critical reviews on this item.".format(results[1]))
+            
+        if st.button('See the breakdown'):
+            result_df = pd.DataFrame.from_dict(results[0], orient='index')
+            result_df['index'] = ['Health','Quality','Service']
+            result_df.set_index('index',inplace=True)
 
-    prediction = get_prediction(features)
-    return jsonify({'result':{'len': prediction[1], 'Health':['{:.0f}'.format(prediction[0][0]['percent']),'{}'.format(prediction[0][0]['helpful_rev'])],
-    'Quality':['{:.0f}'.format(prediction[0][1]['percent']),'{}'.format(prediction[0][1]['helpful_rev'])],
-    'Service':['{:.0f}'.format(prediction[0][2]['percent']),'{}'.format(prediction[0][2]['helpful_rev'])]}})
+            labels = result_df.index
+            values = result_df.percent
+
+            data = go.Pie(labels=labels, values=values, hole = 0.3)
+
+            #title = "Review Topics Breakdown"
+            layout = go.Layout(
+                titlefont=dict(
+                size=30,
+                color='#7f7f7f'
+                ))
+
+            fig = go.Figure(data=data, layout=layout)
+            #py.iplot(fig)
+            st.plotly_chart(fig)
+        
+        st.markdown('Let\'s explore most helpful reviews in each category.')
+        topics = st.radio("Choose a category:",
+                          ('Health', 'Quality', 'Service'))
+        
+        if topics == 'Health':
+            st.subheader("Health")
+            st.write(results[0][0]['helpful_rev'])
+        elif topics == 'Quality':
+            st.subheader("Quality")
+            st.write(results[0][1]['helpful_rev'])
+        elif topics=='Service':
+            st.subheader("Customer Service")
+            st.write(results[0][2]['helpful_rev'])            
+        
+if __name__=='__main__':
+    main()
+
+
