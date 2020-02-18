@@ -6,6 +6,8 @@ SmartRev is a web app created as part of an Insight Data Science project that is
 ## How SmartRev Works
 After prodiving the url of the pet food on Chewy's website, the user can see a visual breakdown of reviews across the 3 categories, as well as the review voted most helpful for each class.
 
+![SmartRev Backend](App.png)
+
 ## Datasets
 Amazon Customer Reviews Dataset for Pet products available on AWS, as well as critical reviews for pet foods scraped from Chewy's website have been used as input datasets.
 
