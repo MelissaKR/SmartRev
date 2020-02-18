@@ -10,6 +10,10 @@ Behind the curtain, critical reviews from the url are scraped and fed to the mod
 
 ![SmartRev Backend](App.png)
 
+
+SmartRev can be visited at: https://petfoodrecommend.appspot.com/
+
+
 ## Datasets
 Amazon Customer Reviews Dataset for Pet products available on AWS, as well as critical reviews for pet foods scraped from Chewy's website have been used as input datasets to train the model.
 
