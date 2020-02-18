@@ -20,7 +20,7 @@ Two approaches have been taken with respect to the modeling aspect of the proble
 
 **2. Supervised Learning**
 
-  The models trained are:
+  The trained models are:
   
   a. 1 Dimensional Convolutional Neural Network (CNN)
   
