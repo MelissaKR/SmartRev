@@ -8,7 +8,7 @@ After prodiving the url of the pet food on Chewy's website, the user can see a v
 
 Behind the curtain, critical reviews from the url are scraped and fed to the model after some pre-processing on the body of the reviews. The predicted class for each review is then obtained using a Rest API call to the model, which is a 2-layer LSTM (Long Short-Term Memory) neural network model and is deployed on Google AI Platform.
 
-![SmartRev Backend](App.png)
+<img src="App.png" width="600" height="350" />
 
 
 SmartRev can be visited at: https://petfoodrecommend.appspot.com/
