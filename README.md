@@ -22,9 +22,7 @@ Two approaches have been taken with respect to the modeling aspect of the proble
 
 **1. Unsupervised Learning: LDA + TF-IDF**
 
-\`\`\`html
-<?php insertTemplate("pyLDAvis_10.html") ?>
-\`\`\`
+<img src="/images/LDA.gif" width="40" height="40" />
 
 
 **2. Supervised Learning**
