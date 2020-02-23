@@ -22,6 +22,10 @@ Two approaches have been taken with respect to the modeling aspect of the proble
 
 **1. Unsupervised Learning: LDA + TF-IDF**
 
+from IPython.display import HTML
+
+HTML(filename="./pyLDAvis_10.html")
+
 **2. Supervised Learning**
 
   The trained models are:
