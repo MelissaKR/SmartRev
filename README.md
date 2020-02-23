@@ -22,7 +22,7 @@ Two approaches have been taken with respect to the modeling aspect of the proble
 
 **1. Unsupervised Learning: LDA + TF-IDF**
 
-<img src="/images/LDA.gif" width="800" height="600" />
+<img src="/images/LDA.gif" width="800" height="500" />
 
 
 **2. Supervised Learning**
