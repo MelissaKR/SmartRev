@@ -45,18 +45,26 @@ The trained models are:
 
 CNNs are easier to tune and faster to run. A 1D CNN model works by discovering local, short-term anomalies in the text. Therefore, it is a good starting place. The sparse categorical accuracy on validation data using this model was 91 %.
 
-<img src="/images/CNN.png" width="600" height="500" />
+<p align="center">
+  <img width="500" height="400" src="/images/CNN.png">
+</p>
+
 
 ### b. Multilayer LSTM (Long Short-Term Memory)
 
 An LSTM model is capable of considering long-term dependencies in a text document, which may be more useful for out problem. Normally, critical reviews are longer than a few sentences, and may hit on different subjects with varying ranges of sentiments. Therefore, a model that does not account for longer-term dependencies may miss on the subtle defining structure of reviews for each category. The LSTM model achieved an accuracy of 95% in this case.
-  
-<img src="/images/LSTM.png" width="200" height="500" />
+
+<p align="center">
+  <img width="200" height="400" src="/images/LSTM.png">
+</p>
+
 ### c. Multilayer Bidirectional LSTM
 
 Finally, a Bidirectional LSTM model was trained to see whether including information on what comes next in a sentences as well as what has come before can make any significant improvements in our results. What was discovered was that it takes almost twice as long to train than an LSTM model, and reaches an accuracy of 94% on validation dataset. 
 
-<img src="/images/LSTM.png" width="250" height="500" />
+<p align="center">
+  <img width="200" height="400" src="/images/BiLSTM.png">
+</p>
 
 Since the LSTM model outperformed the other two, that was the model that was ultimately deployed to Google AI Platform.
 
