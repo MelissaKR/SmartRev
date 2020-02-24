@@ -28,7 +28,9 @@ The different steps involved in building a LDA model involves tokenizing, lemmat
 
 The results from deploying LDA with 10 topics (that has been found the optimum number of topics) on the corpus of reviews are shown in the visualization below, which is created using **pyLDAvis** package. It shows the words most associated with each topic, as well as the percentage of tokens for each topic.
 
-<img src="/images/LDA.gif" width="800" height="500" />
+<p align="center">
+    <img src="/images/LDA.gif" width="800" height="500" />
+</p>
 
 A close look at the top 10 words in each topic reveals that these topics can be distilled into a number of general topics; shipping and handling problems (Topic1, Topic4, and Topic8), and food-related issues (Topic9, Topic7, and Topic10). However, there are a few problems with this approach. The first is that in some cases it is difficult to understand what problem a topic is really about based on the associated words. For example, Topic3, Topic5, and Topic6, while Topic3 and Topic5 comprise the majority of the tokens in the corpus. The other issue is that some of the words are not helpful at all; food, cat, dog, like are not really the most helpful words here. The last problem is that even though there is very little overlap between the different topics in the 2D space, some of these topics may potentially be pointing to pretty much the same issues. 
 
@@ -46,7 +48,7 @@ The trained models are:
 CNNs are easier to tune and faster to run. A 1D CNN model works by discovering local, short-term anomalies in the text. Therefore, it is a good starting place. The sparse categorical accuracy on validation data using this model was 91 %.
 
 <p align="center">
-  <img width="500" height="400" src="/images/CNN.png">
+  <img width="450" height="350" src="/images/CNN.png">
 </p>
 
 
@@ -55,7 +57,7 @@ CNNs are easier to tune and faster to run. A 1D CNN model works by discovering l
 An LSTM model is capable of considering long-term dependencies in a text document, which may be more useful for out problem. Normally, critical reviews are longer than a few sentences, and may hit on different subjects with varying ranges of sentiments. Therefore, a model that does not account for longer-term dependencies may miss on the subtle defining structure of reviews for each category. The LSTM model achieved an accuracy of 95% in this case.
 
 <p align="center">
-  <img width="200" height="400" src="/images/LSTM.png">
+  <img width="200" height="350" src="/images/LSTM.png">
 </p>
 
 ### c. Multilayer Bidirectional LSTM
@@ -63,7 +65,7 @@ An LSTM model is capable of considering long-term dependencies in a text documen
 Finally, a Bidirectional LSTM model was trained to see whether including information on what comes next in a sentences as well as what has come before can make any significant improvements in our results. What was discovered was that it takes almost twice as long to train than an LSTM model, and reaches an accuracy of 94% on validation dataset. 
 
 <p align="center">
-  <img width="200" height="400" src="/images/BiLSTM.png">
+  <img width="230" height="350" src="/images/BiLSTM.png">
 </p>
 
 Since the LSTM model outperformed the other two, that was the model that was ultimately deployed to Google AI Platform.
