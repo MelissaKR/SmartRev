@@ -4,7 +4,7 @@ google-api-python-client==1.7.8
 oauth2client
 bs4
 requests
-urllib3==1.24.2
+urllib3==1.26.5
 lxml
 pandas
 matplotlib
